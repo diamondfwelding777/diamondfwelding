@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Diamond F Welding</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+
+    <a href="checkout.html" class="cart-button">
+        Cart (<span id="cart-count">0</span>)
+    </a>
+
+    <div class="logo-row">
+
+        <div class="header-line"></div>
+
+        <img src="images/logo.png"
+             alt="Diamond F Welding Logo"
+             class="logo">
+
+        <div class="header-line"></div>
+
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="custom.html">Custom Orders</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+</header>
+
+<section class="gallery-page">
+
+    <div class="gallery-header">
+        <h1>Gallery</h1>
+    </div>
+
+    <div class="gallery-grid">
+
+        <img src="images/gallery/gallery-1.png" alt="Diamond F Welding Project">
+        <img src="images/gallery/gallery-2.png" alt="Diamond F Welding Project">
+        <img src="images/gallery/gallery-3.png" alt="Diamond F Welding Project">
+        <img src="images/gallery/gallery-4.png" alt="Diamond F Welding Project">
+        <img src="images/gallery/gallery-5.png" alt="Diamond F Welding Project">
+
+    </div>
+
+</section>
+
+<script>
+
+function updateCartCount() {
+
+    let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+    let totalItems = 0;
+
+    cart.forEach(item => {
+        totalItems += Number(item.quantity);
+    });
+
+    const cartCount =
+        document.getElementById("cart-count");
+
+    if (cartCount) {
+        cartCount.textContent = totalItems;
+    }
+}
+
+updateCartCount();
+
+</script>
+
+</body>
+
+<footer class="site-footer">
+
+    <div class="footer-verse">
+        Proverbs 16:3
+    </div>
+
+    <div class="footer-quote">
+        "Commit your works to the Lord, and your plans will be established."
+    </div>
+
+    <div class="footer-company">
+        Diamond F Welding LLC
+    </div>
+
+    <div class="footer-est">
+        EST. 2026
+    </div>
+
+</footer>
+
+</html>

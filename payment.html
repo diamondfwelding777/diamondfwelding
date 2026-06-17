@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Payment | Diamond F Welding</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID_HERE&currency=USD"></script>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo-row">
+        <div class="header-line"></div>
+
+        <img src="images/logo.png"
+             alt="Diamond F Welding Logo"
+             class="logo">
+
+        <div class="header-line"></div>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="custom.html">Custom Orders</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+</header>
+
+<section class="checkout-container">
+
+    <div class="checkout-card">
+
+        <h1>Payment</h1>
+
+        <div id="payment-summary"></div>
+
+        <hr>
+
+        <div id="paypal-button-container"></div>
+
+        <p id="payment-message" style="margin-top: 25px; color: #ccc;"></p>
+
+    </div>
+
+</section>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const paymentSummary = document.getElementById("payment-summary");
+const paymentMessage = document.getElementById("payment-message");
+
+function finishName(finish) {
+    if (finish === "raw") return "Raw Steel";
+    if (finish === "patina") return "Patina";
+    if (finish === "painted") return "Painted";
+    return finish;
+}
+
+function updateCartCount() {
+    let totalItems = 0;
+
+    cart.forEach(item => {
+        totalItems += Number(item.quantity);
+    });
+
+    const cartCount = document.getElementById("cart-count");
+
+    if (cartCount) {
+        cartCount.textContent = totalItems;
+    }
+}
+
+function getGrandTotal() {
+    let grandTotal = 0;
+
+    cart.forEach(item => {
+        grandTotal += Number(item.price) * Number(item.quantity);
+    });
+
+    return grandTotal;
+}
+
+function loadPaymentSummary() {
+    if (cart.length === 0) {
+        paymentSummary.innerHTML = `
+            <p>Your cart is empty.</p>
+
+            <a href="shop.html" class="button">
+                Return To Shop
+            </a>
+        `;
+
+        document.getElementById("paypal-button-container").style.display = "none";
+        return;
+    }
+
+    let grandTotal = 0;
+
+    cart.forEach(item => {
+        const itemTotal = Number(item.price) * Number(item.quantity);
+        grandTotal += itemTotal;
+
+        paymentSummary.innerHTML += `
+            <hr>
+
+            <div class="checkout-row">
+                <span>Product</span>
+                <span>${item.product}</span>
+            </div>
+
+            <div class="checkout-row">
+                <span>Size</span>
+                <span>${item.size}</span>
+            </div>
+
+            <div class="checkout-row">
+                <span>Finish</span>
+                <span>${finishName(item.finish)}</span>
+            </div>
+
+            <div class="checkout-row">
+                <span>Quantity</span>
+                <span>${item.quantity}</span>
+            </div>
+
+            <div class="checkout-row">
+                <span>Item Total</span>
+                <span>$${itemTotal.toFixed(2)}</span>
+            </div>
+        `;
+    });
+
+    paymentSummary.innerHTML += `
+        <hr>
+
+        <div class="checkout-row total">
+            <span>Total</span>
+            <span>$${grandTotal.toFixed(2)}</span>
+        </div>
+    `;
+}
+
+updateCartCount();
+loadPaymentSummary();
+
+paypal.Buttons({
+
+    createOrder: function(data, actions) {
+        const total = getGrandTotal();
+
+        return actions.order.create({
+            purchase_units: [{
+                description: "Diamond F Welding Order",
+                amount: {
+                    currency_code: "USD",
+                    value: total.toFixed(2)
+                }
+            }]
+        });
+    },
+
+    onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+
+            localStorage.removeItem("cart");
+
+            paymentMessage.textContent =
+                "Payment completed. Thank you, " + details.payer.name.given_name + ".";
+
+            setTimeout(function() {
+                window.location.href = "thank-you.html";
+            }, 1500);
+
+        });
+    },
+
+    onCancel: function(data) {
+        paymentMessage.textContent =
+            "Payment was canceled. Your cart has not been cleared.";
+    },
+
+    onError: function(err) {
+        paymentMessage.textContent =
+            "Something went wrong with PayPal. Please try again.";
+    }
+
+}).render("#paypal-button-container");
+
+</script>
+
+</body>
+
+</html>

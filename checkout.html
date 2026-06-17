@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Cart | Diamond F Welding</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo-row">
+        <div class="header-line"></div>
+
+        <img src="images/logo.png"
+             alt="Diamond F Welding Logo"
+             class="logo">
+
+        <div class="header-line"></div>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="custom.html">Custom Orders</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+</header>
+
+<section class="checkout-container">
+
+    <div class="checkout-card">
+
+        <h1>Your Cart</h1>
+
+        <div id="cart-content">
+
+            <hr>
+
+            <div class="checkout-row">
+                <span>Product</span>
+                <span id="product"></span>
+            </div>
+
+            <div class="checkout-row">
+                <span>Size</span>
+                <span id="size"></span>
+            </div>
+
+            <div class="checkout-row">
+                <span>Finish</span>
+                <span id="finish"></span>
+            </div>
+
+            <div class="quantity-box">
+                <div class="quantity-label">Quantity</div>
+
+                <button onclick="decreaseQuantity()" class="qty-button">−</button>
+
+                <span id="quantity">1</span>
+
+                <button onclick="increaseQuantity()" class="qty-button">+</button>
+            </div>
+
+            <hr>
+
+            <div class="checkout-row total">
+                <span>Total</span>
+                <span id="price"></span>
+            </div>
+
+            <a href="payment.html"
+               class="button checkout-button">
+                CONTINUE TO PAYMENT
+            </a>
+
+        </div>
+
+        <div id="empty-cart" style="display: none;">
+
+            <p>Your cart is empty.</p>
+
+            <a href="shop.html" class="button">
+                Return To Shop
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const cartContent = document.getElementById("cart-content");
+const emptyCart = document.getElementById("empty-cart");
+
+function finishName(finish) {
+    if (finish === "raw") return "Raw Steel";
+    if (finish === "patina") return "Patina";
+    if (finish === "painted") return "Painted";
+    return finish;
+}
+
+function updateCart() {
+
+    cartContent.innerHTML = "";
+
+    if (cart.length === 0) {
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        cartContent.style.display = "none";
+        emptyCart.style.display = "block";
+
+        return;
+    }
+
+    cartContent.style.display = "block";
+    emptyCart.style.display = "none";
+
+    let grandTotal = 0;
+
+    cart.forEach((item, index) => {
+
+        const itemTotal = item.price * item.quantity;
+
+        grandTotal += itemTotal;
+
+        cartContent.innerHTML += `
+
+            <hr>
+
+            <div class="checkout-row">
+                <span>Product</span>
+                <span>${item.product}</span>
+            </div>
+
+            <div class="checkout-row">
+                <span>Size</span>
+                <span>${item.size}</span>
+            </div>
+
+            <div class="checkout-row">
+                <span>Finish</span>
+                <span>${finishName(item.finish)}</span>
+            </div>
+
+            <div class="quantity-box">
+
+                <div class="quantity-label">
+                    Quantity
+                </div>
+
+                <button onclick="decreaseQuantity(${index})"
+                        class="qty-button">−</button>
+
+                <span>${item.quantity}</span>
+
+                <button onclick="increaseQuantity(${index})"
+                        class="qty-button">+</button>
+
+            </div>
+
+            <div class="checkout-row">
+                <span>Item Total</span>
+                <span>$${itemTotal.toFixed(2)}</span>
+            </div>
+
+        `;
+    });
+
+    cartContent.innerHTML += `
+
+        <hr>
+
+        <div class="checkout-row total">
+            <span>Total</span>
+            <span>$${grandTotal.toFixed(2)}</span>
+        </div>
+
+        <a href="payment.html"
+           class="button checkout-button">
+            CONTINUE TO PAYMENT
+        </a>
+
+    `;
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function increaseQuantity(index) {
+
+    cart[index].quantity++;
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    updateCart();
+}
+
+function decreaseQuantity(index) {
+
+    cart[index].quantity--;
+
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    updateCart();
+}
+
+updateCart();
+
+</script>
+
+</body>
+
+</html>

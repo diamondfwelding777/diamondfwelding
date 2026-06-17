@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Angled Planter | Diamond F Welding</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+
+    <a href="checkout.html" class="cart-button">
+        Cart (<span id="cart-count">0</span>)
+    </a>
+
+    <div class="logo-row">
+        <div class="header-line"></div>
+
+        <img src="images/logo.png"
+             alt="Diamond F Welding Logo"
+             class="logo">
+
+        <div class="header-line"></div>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="custom.html">Custom Orders</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+</header>
+
+<section class="product-page angled-page">
+
+    <div class="gallery-container">
+
+        <img id="prev-image"
+             class="side-image"
+             src="images/products/angled/5x2-raw-1.png">
+
+        <button class="gallery-arrow"
+                onclick="previousImage()">
+            &#10094;
+        </button>
+
+        <img id="product-image"
+             class="main-image"
+             src="images/products/angled/1x2-raw-1.png">
+
+        <button class="gallery-arrow"
+                onclick="nextImage()">
+            &#10095;
+        </button>
+
+        <img id="next-image"
+             class="side-image"
+             src="images/products/angled/3x2-raw-1.png">
+
+    </div>
+
+    <div class="product-info">
+
+        <h1>Angled Planter</h1>
+
+        <p>
+            Available in three sizes and three finishes.
+        </p>
+
+        <label for="size">Size</label>
+
+        <select id="size" onchange="updateProduct()">
+            <option value="1x2">1' x 2'</option>
+            <option value="3x2">3' x 2'</option>
+            <option value="5x2">5' x 2'</option>
+        </select>
+
+        <br><br>
+
+        <label for="finish">Finish</label>
+
+        <select id="finish" onchange="updateProduct()">
+            <option value="raw">Raw Steel</option>
+            <option value="patina">Patina</option>
+            <option value="painted">Painted</option>
+        </select>
+
+        <br><br>
+
+        <h2>
+            Price:
+            <span id="price">$1295.00</span>
+        </h2>
+
+        <button onclick="addToCart()" class="button angled-button">
+            Add To Cart
+        </button>
+
+        <div class="quantity-box">
+
+            <div class="quantity-label">
+                Quantity
+            </div>
+
+            <button onclick="decreaseQuantity()" class="qty-button">−</button>
+
+            <span id="quantity">1</span>
+
+            <button onclick="increaseQuantity()" class="qty-button">+</button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="js/angled.js"></script>
+
+<footer class="site-footer">
+
+    <div class="footer-verse">
+        Proverbs 16:3
+    </div>
+
+    <div class="footer-quote">
+        "Commit your works to the Lord, and your plans will be established."
+    </div>
+
+    <div class="footer-company">
+        Diamond F Welding LLC
+    </div>
+
+    <div class="footer-est">
+        EST. 2026
+    </div>
+
+</footer>
+
+</body>
+</html>
