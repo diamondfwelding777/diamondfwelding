@@ -1,10 +1,10 @@
 const images = [
-    "images/products/angled/1x2-raw-1.png",
-    "images/products/angled/1x2-painted-1.jpeg",
-    "images/products/angled/3x2-raw-1.png",
-    "images/products/angled/3x2-painted-1.png",
-    "images/products/angled/5x2-raw-1.png",
-    "images/products/angled/5x2-patina-1.jpeg"
+    "images/Products/angled/1x2-raw-1.png",
+    "images/Products/angled/1x2-painted-1.jpeg",
+    "images/Products/angled/3x2-raw-1.png",
+    "images/Products/angled/3x2-painted-1.png",
+    "images/Products/angled/5x2-raw-1.png",
+    "images/Products/angled/5x2-patina-1.jpeg"
 ];
 
 let currentImage = 0;
